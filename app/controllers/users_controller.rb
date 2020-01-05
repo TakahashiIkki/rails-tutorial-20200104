@@ -10,6 +10,12 @@ class UsersController < ApplicationController
   # GET /users/1
   # GET /users/1.json
   def show
+    @micropost = get_micropost
+    if @micropost
+      @micropost_content = @micropost.content
+    else
+      @micropost_content = ''
+    end
   end
 
   # GET /users/new
@@ -70,5 +76,10 @@ class UsersController < ApplicationController
     # Never trust parameters from the scary internet, only allow the white list through.
     def user_params
       params.require(:user).permit(:name, :email)
+    end
+
+    # ユーザーが持つmicropostデータを一件取得する
+    def get_micropost
+      return @user.microposts.first
     end
 end
